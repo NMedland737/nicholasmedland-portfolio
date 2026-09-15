@@ -12,6 +12,7 @@ type Media = {
   alt: string;
   caption: string;
   detail?: string;
+  orientation?: 'portrait';
 };
 type Project = {
   id: string;
@@ -24,6 +25,7 @@ type Project = {
   challenge: string;
   learning: string;
   media: Media[];
+  previewLayout?: 'portrait';
 };
 
 const projects: Project[] = [
@@ -72,9 +74,10 @@ const projects: Project[] = [
     tags: ['Large-Scale Fabrication', '3D Printing', 'Finishing', 'Assembly'],
     challenge: 'Translate a detailed sculptural object into printable sections while keeping the assembled form rigid and visually seamless.',
     learning: 'The last ten percent—surface preparation, assembly, and paint—can determine whether a prototype reads as a prop or a finished product.',
+    previewLayout: 'portrait',
     media: [
-      { type: 'image', src: '/projects/trophy/final.jpeg', alt: 'Finished large gold FIFA World Cup trophy replica', caption: 'Finished display piece' },
-      { type: 'image', src: '/projects/trophy/fabrication.jpeg', alt: 'Black assembled trophy replica sections during fabrication', caption: 'Section assembly' },
+      { type: 'image', src: '/projects/trophy/final.jpeg', alt: 'Finished large gold FIFA World Cup trophy replica', caption: 'Finished display piece', orientation: 'portrait' },
+      { type: 'image', src: '/projects/trophy/fabrication.jpeg', alt: 'Black assembled trophy replica sections during fabrication', caption: 'Section assembly', orientation: 'portrait' },
       { type: 'image', src: '/projects/trophy/painting.jpeg', alt: 'Trophy replica components during priming and painting', caption: 'Surface preparation' },
     ],
   },
@@ -146,17 +149,21 @@ function MediaVisual({ media, compact = false }: { media: Media; compact?: boole
 }
 
 function ProjectCard({ project, onGallery }: { project: Project; onGallery: (project: Project) => void }) {
-  const previewMedia = project.media.filter((item) => item.type !== 'model').slice(0, 3);
+  const nonModelMedia = project.media.filter((item) => item.type !== 'model');
+  const modelPreview = project.media.find((item) => item.type === 'model');
+  const previewMedia = modelPreview ? [...nonModelMedia.slice(0, 2), modelPreview] : nonModelMedia.slice(0, 3);
   return (
     <article className="project-card" id={project.id}>
-      <div className="project-media">
-        {previewMedia.map((media, index) => (
-          <figure className={`${index === 0 ? 'media-main' : 'media-small'} ${media.type === 'video' ? 'video-thumb' : ''}`} key={`${project.id}-${media.caption}`}>
-            <MediaVisual media={media} compact />
-            {media.type === 'video' && <span className="play" aria-hidden="true">▶</span>}
-            <figcaption>{media.caption}</figcaption>
-          </figure>
-        ))}
+      <div className={`project-media ${project.previewLayout === 'portrait' ? 'project-media-portrait' : ''}`}>
+        <div className="media-grid">
+          {previewMedia.map((media, index) => (
+            <figure className={`${index === 0 ? 'media-main' : 'media-small'} ${media.type === 'video' ? 'video-thumb' : ''} ${media.type === 'model' ? 'model-thumb' : ''}`} key={`${project.id}-${media.caption}`}>
+              <MediaVisual media={media} compact />
+              {media.type === 'video' && <span className="play" aria-hidden="true">▶</span>}
+              <figcaption>{media.caption}</figcaption>
+            </figure>
+          ))}
+        </div>
         <button className="gallery-button" onClick={() => onGallery(project)}>
           <span aria-hidden="true">▦</span> View full gallery <b>{project.media.length}</b>
         </button>
@@ -216,7 +223,12 @@ export default function Home() {
       {selectedProject && <div className="modal-backdrop" onMouseDown={(event) => { if (event.currentTarget === event.target) setSelectedProject(null); }}>
         <section className="gallery-modal" role="dialog" aria-modal="true" aria-labelledby="gallery-title">
           <div className="modal-heading"><div><p className="eyebrow"><span /> Project gallery</p><h2 id="gallery-title">{selectedProject.title}</h2></div><button autoFocus onClick={() => setSelectedProject(null)} aria-label="Close gallery">Close <span aria-hidden="true">×</span></button></div>
-          <div className="gallery-grid">{selectedProject.media.map((media, index) => <figure className={index === 0 ? 'gallery-wide' : media.type === 'model' ? 'gallery-model' : ''} key={`${selectedProject.id}-gallery-${index}`}><MediaVisual media={media} /><figcaption>{media.caption}{media.type === 'model' && <small>Drag to rotate · scroll to zoom</small>}</figcaption></figure>)}</div>
+          <div className="gallery-grid">{selectedProject.media.map((media, index) => {
+            const isPortrait = media.orientation === 'portrait';
+            const isWide = !isPortrait && (index === 0 || selectedProject.previewLayout === 'portrait');
+            const galleryClass = media.type === 'model' ? 'gallery-model' : isPortrait ? 'gallery-portrait' : isWide ? 'gallery-wide' : '';
+            return <figure className={galleryClass} key={`${selectedProject.id}-gallery-${index}`}><MediaVisual media={media} /><figcaption>{media.caption}{media.type === 'model' && <small>Drag to rotate · scroll to zoom</small>}</figcaption></figure>;
+          })}</div>
         </section>
       </div>}
     </main>
