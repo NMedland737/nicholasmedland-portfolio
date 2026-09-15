@@ -40,8 +40,7 @@ const projects: Project[] = [
     media: [
       { type: 'image', src: '/projects/card-shuffler/assembled.png', alt: 'Assembled automated card shuffler prototype', caption: 'Working prototype' },
       { type: 'image', src: '/projects/card-shuffler/system-diagram.jpeg', alt: 'Card shuffler electronics and control system diagram', caption: 'System design' },
-      { type: 'video', src: '/projects/card-shuffler/demo.mp4', alt: 'Card shuffler prototype demonstration', caption: 'Prototype in motion' },
-      { type: 'model', src: '/projects/card-shuffler/card-wheel.glb', alt: 'Interactive 3D model of the card shuffler wheel', caption: 'Card wheel — interactive 3D model' },
+      { type: 'video', src: '/projects/card-shuffler/demo.m4v', alt: 'Card shuffler prototype demonstration', caption: 'Prototype in motion' },
     ],
   },
   {
