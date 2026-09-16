@@ -21,6 +21,13 @@ export const metadata: Metadata = {
 
 const experience = [
   {
+    dates: 'Jun — Aug 2026',
+    role: 'Server & Bartender',
+    place: 'Private Events & Weddings · Vancouver, BC',
+    description: 'Provided table and bar service at private events and weddings, adapting to event schedules, guest needs, and changing service demands while helping with setup and close-down.',
+    tags: ['Event service', 'Guest experience', 'Teamwork'],
+  },
+  {
     dates: 'Feb 2026 — Present',
     role: 'Designer & Fabricator',
     place: 'Freelance',
@@ -29,10 +36,10 @@ const experience = [
   },
   {
     dates: 'Aug 2023 — Present',
-    role: 'Premium Server & Bartender',
-    place: 'Canucks Sports & Entertainment · Vancouver, BC',
-    description: 'Delivering high-end dining experiences in a fast-moving live-event environment where preparation, clear communication, and dependable service standards matter.',
-    tags: ['Communication', 'Teamwork', 'Guest experience'],
+    role: 'Premium Server & Bartender — Presidents Club',
+    place: 'Canucks Sports & Entertainment · Rogers Arena, Vancouver, BC',
+    description: 'Provide fine-dining table and bar service in Rogers Arena’s WELL Health Presidents Club, one of the arena’s most exclusive premium hospitality spaces. The club serves executives, VIPs, team ownership, and other high-profile guests in an environment modelled on the standards of Elisa’s award-winning steakhouse, making discretion, anticipation, and consistency essential.',
+    tags: ['Fine dining', 'VIP hospitality', 'Discretion', 'High-pressure service'],
   },
   {
     dates: 'Jun 2024 — Aug 2025',
@@ -48,6 +55,41 @@ const experience = [
     description: 'Programmed and tested voting machines and office systems, set up election offices, and coordinated equipment logistics for an election serving 23,116 voters.',
     tags: ['Equipment testing', 'Logistics', 'Operational reliability'],
   },
+  {
+    dates: 'Feb 2024',
+    role: 'Alternate Presiding Election Official',
+    place: 'City of Coquitlam · Coquitlam, BC',
+    description: 'Supported election-day operations by preparing the voting place, assisting voters, issuing ballots, and following prescribed counting and documentation procedures.',
+    tags: ['Election operations', 'Procedure compliance', 'Public service'],
+  },
+  {
+    dates: 'Feb 2023 — Aug 2024',
+    role: 'Cashier',
+    place: 'Independent Grocers · Surrey, BC',
+    description: 'Processed transactions accurately, assisted with customer questions, and kept the checkout area organized during high-volume periods.',
+    tags: ['Customer service', 'Point-of-sale', 'Accuracy'],
+  },
+  {
+    dates: 'Sep 2022',
+    role: 'Information Officer',
+    place: 'City of Surrey · Surrey, BC',
+    description: 'Supported voters by answering questions, directing line flow, and helping maintain an orderly and accessible voting process.',
+    tags: ['Voter assistance', 'Public service', 'Crowd flow'],
+  },
+  {
+    dates: 'Sep — Dec 2021',
+    role: 'Seasonal Sales Associate',
+    place: 'Best Buy Canada · Langley, BC',
+    description: 'Helped customers compare technology products and accessories, maintained product displays, and supported a busy retail floor during the holiday season.',
+    tags: ['Product knowledge', 'Customer service', 'Retail operations'],
+  },
+  {
+    dates: 'Oct 2015 — Jan 2022',
+    role: 'Background Actor',
+    place: 'Hollywood North · Surrey, BC',
+    description: 'Worked on film and television productions, following direction, maintaining continuity, and adapting to long and changing production schedules.',
+    tags: ['Reliability', 'Adaptability', 'On-set professionalism'],
+  },
 ];
 
 export default function ResumePage() {
@@ -57,7 +99,7 @@ export default function ResumePage() {
       <section className="subpage-hero shell">
         <p className="eyebrow"><span /> Work experience</p>
         <div className="subpage-title-row">
-          <div><h1>Experience &amp;<br /><em>résumé.</em></h1><p>I&apos;ve worked across fabrication, technical service, live events, and public operations. Each role has made me a more practical engineer and a better teammate.</p></div>
+          <div><h1>Experience &amp;<br /><em>résumé.</em></h1><p>I&apos;ve worked across fabrication, technical service, live events, hospitality, and public operations. Each role has made me a more well-rounded engineer and a better teammate.</p></div>
           <a className="button button-primary download-button" href="/Nicholas-Medland-Resume.pdf" download>Download one-page résumé <span aria-hidden="true">↓</span></a>
         </div>
       </section>
