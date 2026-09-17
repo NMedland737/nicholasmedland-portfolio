@@ -30,4 +30,3 @@ CREATE INDEX IF NOT EXISTS idx_todo_print_jobs_cleanup
 ON todo_print_jobs(status, updated_at);
 
 PRAGMA optimize;
-
