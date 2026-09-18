@@ -278,7 +278,7 @@ export default function Home() {
         <div className="hero-scene">
           <div className="hero-board" />
           <figure className="hero-photo hero-photo-main"><span /><img src="/projects/card-shuffler/assembled.png" alt="Nicholas's automated card shuffler prototype" /><figcaption>Automated card shuffler</figcaption></figure>
-          <figure className="hero-photo-small"><span /><img src="/projects/trophy/close-up.jpeg" alt="Nicholas's finished FIFA World Cup trophy centrepiece" /><figcaption>FIFA trophy centrepiece</figcaption></figure>
+          <figure className="hero-photo-small"><span /><img src="/projects/trophy/final.jpeg" alt="Nicholas's finished FIFA World Cup trophy centrepiece" /><figcaption>FIFA trophy centrepiece</figcaption></figure>
           <Pip />
         </div>
       </section>
