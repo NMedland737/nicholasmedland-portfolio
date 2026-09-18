@@ -3,7 +3,6 @@ export default function SiteHeader() {
   return (
     <nav className="nav shell" aria-label="Main navigation">
       <a className="brand" href="/#top" aria-label="Nicholas Medland, home">
-        <span className="brand-spark" aria-hidden="true">✦</span>
         <span>Nicholas Medland</span>
       </a>
       <div className="nav-links">

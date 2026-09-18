@@ -3,7 +3,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import ModelViewer from './model-viewer';
-import Pip, { PipMini, PipNote } from './pip';
+import Pip, { PipMini, PipWalker } from './pip';
 import SiteHeader from './site-header';
 
 type Category = 'Personal' | 'Commissioned' | 'School';
@@ -215,6 +215,7 @@ export default function Home() {
   const [activeFilter, setActiveFilter] = useState<'All' | Category>('All');
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [lightbox, setLightbox] = useState<LightboxState | null>(null);
+  const [pipMessage, setPipMessage] = useState<string | null>(null);
   const visibleProjects = useMemo(() => activeFilter === 'All' ? projects : projects.filter((project) => project.category === activeFilter), [activeFilter]);
   const lightboxMedia = lightbox ? lightbox.project.media[lightbox.mediaIndex] : null;
   const lightboxMediaCount = lightbox ? lightbox.project.media.filter(isExpandableMedia).length : 0;
@@ -239,35 +240,58 @@ export default function Home() {
     return () => { document.removeEventListener('keydown', handleKeyDown); document.body.style.overflow = ''; };
   }, [selectedProject, lightbox]);
 
+  useEffect(() => {
+    let frame = 0;
+    const updatePip = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        const stops = Array.from(document.querySelectorAll<HTMLElement>('[data-pip-note]'));
+        const target = window.innerHeight * .42;
+        const closest = stops.reduce<HTMLElement | null>((best, stop) => {
+          if (!best) return stop;
+          return Math.abs(stop.getBoundingClientRect().top - target) < Math.abs(best.getBoundingClientRect().top - target) ? stop : best;
+        }, null);
+        setPipMessage(closest?.dataset.pipNote || null);
+      });
+    };
+    updatePip();
+    window.addEventListener('scroll', updatePip, { passive: true });
+    window.addEventListener('resize', updatePip);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener('scroll', updatePip);
+      window.removeEventListener('resize', updatePip);
+    };
+  }, [visibleProjects]);
+
   return (
     <main>
       <SiteHeader />
 
       <section className="hero shell" id="top">
         <div className="hero-copy">
-          <p className="hero-label">Hi, I&apos;m Nicholas.</p>
-          <h1>I build things, figure out why they don&apos;t work, and <em>try again.</em></h1>
+          <h1>Hi, I&apos;m Nicholas.</h1>
           <p className="hero-intro">I study electronics engineering at SFU. My projects usually land somewhere between electronics, mechanical design, software, and a very specific problem I decided to fix.</p>
           <div className="hero-actions"><a className="button button-primary" href="#work">See what I&apos;ve made <span aria-hidden="true">↓</span></a><a href="/resume">View my résumé</a></div>
-          <p className="hero-now"><b>Interested in:</b> electronics, prototyping, and learning how interactive technology can make ordinary things more memorable.</p>
+          <p className="hero-now"><b>Interested in:</b> how interactive technology can make ordinary things more memorable and useful.</p>
         </div>
         <div className="hero-scene">
-          <div className="hero-orbit" />
-          <figure className="hero-photo"><span /><img src="/projects/card-shuffler/assembled.png" alt="Nicholas's automated card shuffler prototype" /><figcaption>First useful lesson: cards are surprisingly uncooperative.</figcaption></figure>
+          <div className="hero-board" />
+          <figure className="hero-photo hero-photo-main"><span /><img src="/projects/card-shuffler/assembled.png" alt="Nicholas's automated card shuffler prototype" /><figcaption>Automated card shuffler</figcaption></figure>
+          <figure className="hero-photo-small"><span /><img src="/projects/thermostat-cover/front.jpeg" alt="Nicholas's thermostat cover" /><figcaption>Thermostat cover</figcaption></figure>
           <Pip />
-          <span className="hero-spark">✦</span>
         </div>
       </section>
 
       <section className="work shell" id="work">
-        <aside className="pip-project-rail" aria-hidden="true"><span /><PipMini /></aside>
+        <aside className="pip-project-rail" aria-live="polite"><span /><div className="pip-rail-sticky"><PipWalker />{pipMessage && <p key={pipMessage}>{pipMessage}</p>}</div></aside>
         <div className="work-main">
-        <div className="section-heading"><div><p className="eyebrow"><span /> Projects</p><h2>Things I&apos;ve made.</h2></div><p className="section-intro">School work, commissioned pieces, and personal projects. Most of them started with a problem I could point at.</p></div>
+        <div className="section-heading"><div><p className="eyebrow"><span /> Projects</p><h2>Things I&apos;ve made.</h2></div></div>
         <div className="filters" aria-label="Project categories">{filters.map((filter) => {
           const count = filter === 'All' ? projects.length : projects.filter((project) => project.category === filter).length;
           return <button key={filter} className={activeFilter === filter ? 'filter-active' : ''} aria-pressed={activeFilter === filter} onClick={() => setActiveFilter(filter)}>{filter} <span>{String(count).padStart(2, '0')}</span></button>;
         })}</div>
-        <div className="project-list">{visibleProjects.map((project) => <div className="project-stop" key={project.id}><ProjectCard project={project} onGallery={setSelectedProject} onMedia={openLightbox} />{project.pipNote && <PipNote>{project.pipNote}</PipNote>}</div>)}</div>
+        <div className="project-list">{visibleProjects.map((project) => <div className="project-stop" key={project.id} data-pip-note={project.pipNote ?? ''}><ProjectCard project={project} onGallery={setSelectedProject} onMedia={openLightbox} /></div>)}</div>
         </div>
       </section>
 

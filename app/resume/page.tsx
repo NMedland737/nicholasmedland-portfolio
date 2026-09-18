@@ -21,13 +21,6 @@ export const metadata: Metadata = {
 
 const experience = [
   {
-    dates: 'Jun — Aug 2026',
-    role: 'Server & Bartender',
-    place: 'Private Events & Weddings · Vancouver, BC',
-    description: 'Provided table and bar service at private events and weddings, helping with setup, service, guest requests, and close-down.',
-    tags: ['Event service', 'Guest experience', 'Teamwork'],
-  },
-  {
     dates: 'Feb 2026 — Present',
     role: 'Designer & Fabricator',
     place: 'Freelance',
@@ -36,10 +29,17 @@ const experience = [
   },
   {
     dates: 'Aug 2023 — Present',
-    role: 'Premium Server & Bartender — Presidents Club',
+    role: 'Premium Server & Bartender',
     place: 'Canucks Sports & Entertainment · Rogers Arena, Vancouver, BC',
-    description: 'Provide fine-dining table and bar service in Rogers Arena’s WELL Health Presidents Club, the arena’s most exclusive dining space. Guests include executives, VIPs, team ownership, and other high-profile visitors. Service is modelled after Elisa Steakhouse, so discretion, consistency, and attention to detail matter every night.',
+    description: 'Provide fine-dining table and bar service in Rogers Arena’s most exclusive dining space, serving executives, VIPs, ownership, and other high-profile guests. The role requires discretion, consistency, and close attention to detail.',
     tags: ['Fine dining', 'VIP hospitality', 'Discretion', 'High-pressure service'],
+  },
+  {
+    dates: 'Jun — Aug 2026',
+    role: 'Server & Bartender',
+    place: 'Private Events & Weddings · Vancouver, BC',
+    description: 'Provided table and bar service at private events and weddings, helping with setup, service, guest requests, and close-down.',
+    tags: ['Event service', 'Guest experience', 'Teamwork'],
   },
   {
     dates: 'Jun 2024 — Aug 2025',
@@ -56,18 +56,18 @@ const experience = [
     tags: ['Equipment testing', 'Logistics', 'Operational reliability'],
   },
   {
-    dates: 'Feb 2024',
-    role: 'Alternate Presiding Election Official',
-    place: 'City of Coquitlam · Coquitlam, BC',
-    description: 'Helped prepare the voting place, assist voters, issue ballots, and complete the required counting and documentation procedures.',
-    tags: ['Election operations', 'Procedure compliance', 'Public service'],
-  },
-  {
     dates: 'Feb 2023 — Aug 2024',
     role: 'Cashier',
     place: 'Independent Grocers · Surrey, BC',
     description: 'Processed transactions, answered customer questions, and kept the checkout area organized during busy periods.',
     tags: ['Customer service', 'Point-of-sale', 'Accuracy'],
+  },
+  {
+    dates: 'Feb 2024',
+    role: 'Alternate Presiding Election Official',
+    place: 'City of Coquitlam · Coquitlam, BC',
+    description: 'Helped prepare the voting place, assist voters, issue ballots, and complete the required counting and documentation procedures.',
+    tags: ['Election operations', 'Procedure compliance', 'Public service'],
   },
   {
     dates: 'Sep 2022',
@@ -77,18 +77,18 @@ const experience = [
     tags: ['Voter assistance', 'Public service', 'Crowd flow'],
   },
   {
-    dates: 'Sep — Dec 2021',
-    role: 'Seasonal Sales Associate',
-    place: 'Best Buy Canada · Langley, BC',
-    description: 'Helped customers compare technology products and accessories and supported a busy retail floor during the holiday season.',
-    tags: ['Product knowledge', 'Customer service', 'Retail operations'],
-  },
-  {
     dates: 'Oct 2015 — Jan 2022',
     role: 'Background Actor',
     place: 'Hollywood North · Surrey, BC',
     description: 'Worked on film and television productions, following direction, maintaining continuity, and adapting to long, changing schedules.',
     tags: ['Reliability', 'Adaptability', 'On-set professionalism'],
+  },
+  {
+    dates: 'Sep — Dec 2021',
+    role: 'Seasonal Sales Associate',
+    place: 'Best Buy Canada · Langley, BC',
+    description: 'Helped customers compare technology products and accessories and supported a busy retail floor during the holiday season.',
+    tags: ['Product knowledge', 'Customer service', 'Retail operations'],
   },
 ];
 
@@ -104,9 +104,8 @@ export default function ResumePage() {
         </div>
       </section>
       <section className="resume-list shell">
-        {experience.map((item, index) => (
+        {experience.map((item) => (
           <article key={item.role}>
-            <div className="resume-number">{String(index + 1).padStart(2, '0')}</div>
             <time>{item.dates}</time>
             <div className="resume-entry"><h2>{item.role}</h2><p className="resume-place">{item.place}</p><p>{item.description}</p><div className="tags">{item.tags.map((tag) => <span key={tag}>{tag}</span>)}</div></div>
           </article>

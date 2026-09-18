@@ -25,11 +25,14 @@ export function PipMini({ label = 'Pip' }: { label?: string }) {
   );
 }
 
-export function PipNote({ children }: { children: React.ReactNode }) {
+export function PipWalker() {
   return (
-    <details className="pip-note">
-      <summary><PipMini label="Pip left a note" /><span>Pip left a note</span><i>+</i></summary>
-      <p>{children}</p>
-    </details>
+    <span className="pip-walker" aria-hidden="true">
+      <span className="pip-walker-antenna" />
+      <span className="pip-walker-face"><i /><i /><b>ᴗ</b></span>
+      <span className="pip-walker-body"><i /><i /></span>
+      <span className="pip-walker-foot pip-walker-foot-left" />
+      <span className="pip-walker-foot pip-walker-foot-right" />
+    </span>
   );
 }
