@@ -40,10 +40,10 @@ const projects: Project[] = [
     title: 'Automated Card Shuffler',
     category: 'School',
     year: '2025',
-    lede: 'A working electromechanical prototype designed to shuffle a standard deck at the press of a button.',
+    lede: 'A working card shuffler built around one deceptively hard problem: getting the rollers to launch exactly one card into the same place every time.',
     description: 'I designed the mechanism, printed and revised the parts, then wired an Arduino, motors, sensors, buttons, and a remote. The cards found several new ways to jam along the way.',
     tags: ['Arduino', 'Electronics', 'CAD', '3D Printing', 'Prototyping'],
-    challenge: 'Shuffle a full deck reliably inside a compact machine. Playing cards bend, stick together, and generally ignore the plan.',
+    challenge: 'Moving the cards was easy. Getting the rollers to feed and launch exactly one card at a time, with enough consistency for the rest of the mechanism to work, was the real challenge.',
     learning: 'Small changes to roller spacing and timing mattered more than big redesigns. Build, test, adjust, repeat.',
     pipNote: 'The cards were the least predictable part of the machine.',
     media: [
@@ -57,10 +57,10 @@ const projects: Project[] = [
     title: 'Custom Barware System',
     category: 'Commissioned',
     year: '2026',
-    lede: 'Custom organizers for cups and glassware in a busy bar.',
-    description: 'I measured the existing stations, modelled each holder in Fusion, printed prototypes, and adjusted them with feedback from the people using them. The final parts keep the glassware stable and make restocking faster.',
+    lede: 'Custom organizers built after the off-the-shelf storage kept tipping over during service.',
+    description: 'The organizers they had bought did not fit the cups and glassware properly, so they fell over several times a shift, made a mess, and looked rough behind the bar. I measured each station and container, designed fitted holders in Fusion, and refined the prototypes with staff feedback.',
     tags: ['Fusion 360', '3D Printing', 'Product Design', 'Client Work'],
-    challenge: 'Fit several container sizes into awkward spaces without taking room away from service.',
+    challenge: 'Replace unstable, poorly fitting storage without taking up more of the limited space behind the bar.',
     learning: 'Watching the job being done was more useful than measuring the counter once and guessing.',
     media: [
       { type: 'image', src: '/projects/to-go-containers/installed.jpeg', alt: 'Custom black honeycomb organizers installed at a bar', caption: 'Installed on location' },
@@ -82,15 +82,15 @@ const projects: Project[] = [
     description: 'I split the shape into printable sections, assembled and filled the seams, then sanded, primed, and painted it. A lot of work went into making one very large gold object look like a single piece.',
     tags: ['Large-Scale Fabrication', '3D Printing', 'Finishing', 'Assembly'],
     challenge: 'Break an organic shape into printable sections while keeping the finished structure rigid and the seams out of sight.',
-    learning: 'Printing was only the beginning. Assembly, filling, sanding, and paint made the difference.',
+    learning: 'The fine details made the biggest difference. Filling and sanding the seams took more time than almost anything else, but that work is what made separate printed sections look like one finished piece.',
     pipNote: 'Four feet tall. Nobody asked for subtle.',
     previewLayout: 'portrait',
     media: [
       { type: 'image', src: '/projects/trophy/final.jpeg', alt: 'Finished large gold FIFA World Cup trophy replica', caption: 'Finished display piece', orientation: 'portrait' },
-      { type: 'image', src: '/projects/trophy/fabrication.jpeg', alt: 'Black assembled trophy replica sections during fabrication', caption: 'Section assembly', orientation: 'portrait' },
+      { type: 'image', src: '/projects/trophy/close-up.jpeg', alt: 'Finished gold FIFA World Cup trophy centrepiece displayed on its podium', caption: 'Finished venue display' },
       { type: 'image', src: '/projects/trophy/painting.jpeg', alt: 'Trophy replica components during priming and painting', caption: 'Surface preparation' },
       { type: 'image', src: '/projects/trophy/full-setup.jpg', alt: 'Finished FIFA World Cup trophy centrepiece in the full rooftop event setup', caption: 'Full event setup', orientation: 'portrait' },
-      { type: 'image', src: '/projects/trophy/close-up.jpeg', alt: 'Finished gold FIFA World Cup trophy centrepiece displayed on its podium', caption: 'Finished venue display', orientation: 'portrait' },
+      { type: 'image', src: '/projects/trophy/fabrication.jpeg', alt: 'Black assembled trophy replica sections during fabrication', caption: 'Section assembly', orientation: 'portrait' },
     ],
   },
   {
@@ -265,20 +265,20 @@ export default function Home() {
   }, [visibleProjects]);
 
   return (
-    <main>
+    <main className="pip-paused">
       <SiteHeader />
 
       <section className="hero shell" id="top">
         <div className="hero-copy">
           <h1>Hi, I&apos;m Nicholas.</h1>
-          <p className="hero-intro">I study electronics engineering at SFU. My projects usually land somewhere between electronics, mechanical design, software, and a very specific problem I decided to fix.</p>
+          <p className="hero-intro">I&apos;m studying electronics engineering at SFU. I like taking an idea, building a first version, and working through the problems until it does what I had in mind. That usually means some mix of electronics, mechanical design, and software.</p>
           <div className="hero-actions"><a className="button button-primary" href="#work">See what I&apos;ve made <span aria-hidden="true">↓</span></a><a href="/resume">View my résumé</a></div>
           <p className="hero-now"><b>Interested in:</b> how interactive technology can make ordinary things more memorable and useful.</p>
         </div>
         <div className="hero-scene">
           <div className="hero-board" />
           <figure className="hero-photo hero-photo-main"><span /><img src="/projects/card-shuffler/assembled.png" alt="Nicholas's automated card shuffler prototype" /><figcaption>Automated card shuffler</figcaption></figure>
-          <figure className="hero-photo-small"><span /><img src="/projects/thermostat-cover/front.jpeg" alt="Nicholas's thermostat cover" /><figcaption>Thermostat cover</figcaption></figure>
+          <figure className="hero-photo-small"><span /><img src="/projects/trophy/close-up.jpeg" alt="Nicholas's finished FIFA World Cup trophy centrepiece" /><figcaption>FIFA trophy centrepiece</figcaption></figure>
           <Pip />
         </div>
       </section>

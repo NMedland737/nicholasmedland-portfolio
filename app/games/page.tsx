@@ -22,7 +22,7 @@ export const metadata: Metadata = {
 
 export default function GamesPage() {
   return (
-    <main className="construction-page">
+    <main className="construction-page pip-paused">
       <SiteHeader />
       <section className="construction shell">
         <div className="construction-card">

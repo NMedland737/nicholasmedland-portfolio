@@ -312,7 +312,7 @@ footer a { display: inline-block; margin-top: 16px; color: white; font-weight: 8
 .hero-now { max-width: 620px; margin: 45px 0 0; padding-top: 16px; border-top: 1px dashed #9ba39b; color: var(--ink-soft); font: italic 14px/1.55 Georgia, serif; }
 .hero-now b { color: #6f8d75; }
 .hero-scene { position: relative; min-height: 590px; align-self: center; }
-.hero-board { position: absolute; inset: 30px 7px 46px 24px; border: 1px solid #7f7598; border-radius: 24px 8px 28px 9px; background: linear-gradient(#ffffff2b 1px, transparent 1px), linear-gradient(90deg, #ffffff2b 1px, transparent 1px), #b9add1; background-size: 28px 28px; box-shadow: 12px 14px 0 #d4dcb9; transform: rotate(1.8deg); }
+.hero-board { position: absolute; inset: 30px 7px 46px 24px; border: 1px solid #536b59; border-radius: 24px 8px 28px 9px; background: linear-gradient(#ffffff24 1px, transparent 1px), linear-gradient(90deg, #ffffff24 1px, transparent 1px), #7f9b84; background-size: 28px 28px; box-shadow: 12px 14px 0 #d8c987; transform: rotate(1.8deg); }
 .hero-photo { position: absolute; z-index: 2; margin: 0; padding: 12px 12px 42px; border: 1px solid #c6bfae; border-radius: 7px; background: var(--card); box-shadow: 8px 13px 28px #2f3b3426; }
 .hero-photo-main { width: 76%; height: 355px; left: 1%; top: 68px; transform: rotate(-3deg); }
 .hero-photo > span { position: absolute; z-index: 2; width: 88px; height: 26px; left: 50%; top: -14px; translate: -50% 0; background: #ead69dcc; transform: rotate(2deg); }
@@ -320,7 +320,7 @@ footer a { display: inline-block; margin-top: 16px; color: white; font-weight: 8
 .hero-photo figcaption { position: absolute; left: 15px; bottom: 11px; font: 14px 'Bradley Hand', 'Comic Sans MS', cursive; }
 .hero-photo-small { position: absolute; z-index: 4; width: 43%; height: 238px; right: 1%; bottom: 26px; margin: 0; padding: 10px 10px 38px; border: 1px solid #c6bfae; border-radius: 6px; background: #fffaf0; box-shadow: 7px 10px 22px #2f3b3430; transform: rotate(4deg); }
 .hero-photo-small > span { position: absolute; z-index: 2; width: 68px; height: 22px; left: 50%; top: -11px; translate: -50% 0; background: #dfe6c7d9; transform: rotate(-3deg); }
-.hero-photo-small img { width: 100%; height: 100%; object-fit: cover; }
+.hero-photo-small img { width: 100%; height: 100%; object-fit: cover; object-position: center 28%; }
 .hero-photo-small figcaption { position: absolute; left: 13px; bottom: 9px; font: 13px 'Bradley Hand', 'Comic Sans MS', cursive; }
 .pip-intro { position: absolute; z-index: 6; left: 0; bottom: 4px; display: flex; align-items: flex-end; gap: 14px; }
 .pip-intro > p { width: 190px; margin: 0 0 8px; padding: 12px 13px; border: 1px solid var(--ink); border-radius: 12px 12px 3px 12px; background: var(--card); box-shadow: 3px 4px 0 var(--blue); font: 11px/1.45 Arial, sans-serif; }
@@ -413,6 +413,11 @@ summary b { color: var(--coral); }
 .pip-mini b { position: absolute; inset: 28px 0 auto; font-size: 11px; line-height: 1; text-align: center; }
 .footer-pip { margin-top: 30px; }
 .footer-pip .pip-mini { --ink: #f4ead8; --card: #2f3b34; box-shadow: 3px 4px 0 #0004; }
+.pip-paused .pip-intro,
+.pip-paused .pip-project-rail,
+.pip-paused .footer-pip,
+.pip-paused .construction-pip { display: none; }
+.pip-paused .work { width: min(1180px, calc(100% - 48px)); display: block; }
 footer { background: #2f3b34; }
 footer h2 { letter-spacing: -.045em; }
 footer .eyebrow > span { border-color: var(--butter); }
@@ -431,6 +436,7 @@ footer .footer-grid > div:last-child { color: #d8ded5; }
 }
 @media (max-width: 680px) {
   .work { width: min(100% - 30px, 1180px); display: block; }
+  .pip-paused .work { width: min(100% - 30px, 1180px); }
   .pip-project-rail { display: none; }
 }
 
