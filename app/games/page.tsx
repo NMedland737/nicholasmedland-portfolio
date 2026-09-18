@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-html-link-for-pages */
 import type { Metadata } from 'next';
+import { PipMini } from '../pip';
 import SiteHeader from '../site-header';
 
 export const metadata: Metadata = {
@@ -26,10 +27,11 @@ export default function GamesPage() {
       <section className="construction shell">
         <div className="construction-card">
           <div className="construction-orbit" aria-hidden="true"><span>✦</span><i /><b /></div>
-          <p className="eyebrow"><span /> Games workshop</p>
-          <h1>Something playful is<br /><em>under construction.</em></h1>
-          <p>I&apos;ll be adding small games and interactive experiments here later. For now, the interesting things are over in my project workshop.</p>
-          <a className="button button-primary" href="/#work">Explore my projects <span aria-hidden="true">→</span></a>
+          <div className="construction-pip"><PipMini /></div>
+          <p className="eyebrow"><span /> Games</p>
+          <h1>Games will live here.<br /><em>Eventually.</em></h1>
+          <p>I want to use this page for small games and experiments. It is not ready yet, so the projects are probably more useful for now.</p>
+          <a className="button button-primary" href="/#work">Go to the projects <span aria-hidden="true">→</span></a>
         </div>
       </section>
     </main>

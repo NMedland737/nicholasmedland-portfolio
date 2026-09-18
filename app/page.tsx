@@ -3,6 +3,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import ModelViewer from './model-viewer';
+import Pip, { PipMini, PipNote } from './pip';
 import SiteHeader from './site-header';
 
 type Category = 'Personal' | 'Commissioned' | 'School';
@@ -26,6 +27,7 @@ type Project = {
   learning: string;
   media: Media[];
   previewLayout?: 'portrait';
+  pipNote?: string;
 };
 type LightboxState = {
   project: Project;
@@ -39,10 +41,11 @@ const projects: Project[] = [
     category: 'School',
     year: '2025',
     lede: 'A working electromechanical prototype designed to shuffle a standard deck at the press of a button.',
-    description: 'I designed the mechanical system, iterated through 3D-printed parts, and integrated an Arduino with motors, sensors, buttons, and a remote. The project turned a deceptively simple action into a useful lesson in tolerances, testing, and physical systems.',
+    description: 'I designed the mechanism, printed and revised the parts, then wired an Arduino, motors, sensors, buttons, and a remote. The cards found several new ways to jam along the way.',
     tags: ['Arduino', 'Electronics', 'CAD', '3D Printing', 'Prototyping'],
-    challenge: 'Move inconsistent playing cards reliably without jams, while keeping the machine compact and easy to operate.',
-    learning: 'Small mechanical tolerances matter, and the fastest route to a reliable design is often to build, observe, and revise.',
+    challenge: 'Shuffle a full deck reliably inside a compact machine. Playing cards bend, stick together, and generally ignore the plan.',
+    learning: 'Small changes to roller spacing and timing mattered more than big redesigns. Build, test, adjust, repeat.',
+    pipNote: 'The cards were the least predictable part of the machine.',
     media: [
       { type: 'image', src: '/projects/card-shuffler/assembled.png', alt: 'Assembled automated card shuffler prototype', caption: 'Working prototype' },
       { type: 'image', src: '/projects/card-shuffler/system-diagram.jpeg', alt: 'Card shuffler electronics and control system diagram', caption: 'System design' },
@@ -54,11 +57,11 @@ const projects: Project[] = [
     title: 'Custom Barware System',
     category: 'Commissioned',
     year: '2026',
-    lede: 'A family of fitted organizers that keeps cups and glassware tidy, protected, stable, and ready during busy service.',
-    description: 'Created for a live hospitality environment, these pieces were measured, modelled, printed, and refined for the exact spaces where they would be used. The honeycomb design gives otherwise ordinary storage containers an elegant, distinctive appearance.',
+    lede: 'Custom organizers for cups and glassware in a busy bar.',
+    description: 'I measured the existing stations, modelled each holder in Fusion, printed prototypes, and adjusted them with feedback from the people using them. The final parts keep the glassware stable and make restocking faster.',
     tags: ['Fusion 360', '3D Printing', 'Product Design', 'Client Work'],
-    challenge: 'Fit awkward, high-traffic spaces and multiple container sizes without slowing down service.',
-    learning: 'A useful product starts with watching how people actually work—not just measuring the available space.',
+    challenge: 'Fit several container sizes into awkward spaces without taking room away from service.',
+    learning: 'Watching the job being done was more useful than measuring the counter once and guessing.',
     media: [
       { type: 'image', src: '/projects/to-go-containers/installed.jpeg', alt: 'Custom black honeycomb organizers installed at a bar', caption: 'Installed on location' },
       { type: 'image', src: '/projects/to-go-containers/detail-one.jpeg', alt: 'Detail of custom cup and glass organizers', caption: 'Fitted compartments' },
@@ -75,11 +78,12 @@ const projects: Project[] = [
     title: 'FIFA World Cup Trophy Centrepiece',
     category: 'Commissioned',
     year: '2026',
-    lede: 'A four-foot-tall centrepiece created for several private events.',
-    description: 'This project required breaking an organic form into manufacturable sections, assembling the full-scale structure, filling and finishing the surface, and completing a convincing metallic paint treatment.',
+    lede: 'A four-foot World Cup trophy centrepiece made for private events.',
+    description: 'I split the shape into printable sections, assembled and filled the seams, then sanded, primed, and painted it. A lot of work went into making one very large gold object look like a single piece.',
     tags: ['Large-Scale Fabrication', '3D Printing', 'Finishing', 'Assembly'],
-    challenge: 'Translate a detailed sculptural object into printable sections while keeping the assembled form rigid and visually seamless.',
-    learning: 'The last ten percent—surface preparation, assembly, and paint—can determine whether a prototype reads as a prop or a finished product.',
+    challenge: 'Break an organic shape into printable sections while keeping the finished structure rigid and the seams out of sight.',
+    learning: 'Printing was only the beginning. Assembly, filling, sanding, and paint made the difference.',
+    pipNote: 'Four feet tall. Nobody asked for subtle.',
     previewLayout: 'portrait',
     media: [
       { type: 'image', src: '/projects/trophy/final.jpeg', alt: 'Finished large gold FIFA World Cup trophy replica', caption: 'Finished display piece', orientation: 'portrait' },
@@ -95,10 +99,10 @@ const projects: Project[] = [
     category: 'School',
     year: '2024',
     lede: 'A student-focused campus web app, built with a team to make everyday SFU information easier to find.',
-    description: 'I worked primarily on the backend: building REST APIs, connecting data through Prisma, and writing tests so the app’s features stayed dependable as the project grew.',
+    description: 'I worked mainly on the backend, building REST APIs, connecting data through Prisma, and writing tests while the team developed the rest of the app.',
     tags: ['TypeScript', 'REST APIs', 'Prisma', 'Unit Testing', 'Team Development'],
-    challenge: 'Organize several student utilities behind a consistent, testable interface while coordinating work across a development team.',
-    learning: 'Clear API contracts and tests make teamwork faster because everyone can build against shared expectations.',
+    challenge: 'Keep several student tools behind one consistent, testable backend while working across a development team.',
+    learning: 'Clear API contracts made it much easier for everyone to work independently without breaking each other’s features.',
     media: [
       { type: 'image', src: '/projects/sfu-hub/home.jpeg', alt: 'SFU HUB student website homepage', caption: 'Student dashboard' },
       { type: 'image', src: '/projects/sfu-hub/parking.jpeg', alt: 'SFU HUB parking information and campus map page', caption: 'Parking tool' },
@@ -110,11 +114,11 @@ const projects: Project[] = [
     title: 'Service-Ready Can Holder',
     category: 'Commissioned',
     year: '2026',
-    lede: 'A compact holder designed to keep cans organized and hidden from guests.',
-    description: 'The final part was shaped around real containers and an existing station. It is a small object, but a good example of design that quietly improves a repetitive task while keeping the bar more presentable for guests.',
+    lede: 'A fitted holder that keeps open cans organized and out of sight during service.',
+    description: 'I designed it around the cans and the station where it would be used. It is a small part, but it keeps the bar cleaner and makes a repetitive task easier.',
     tags: ['CAD', '3D Printing', 'Rapid Iteration', 'Human-Centred Design'],
-    challenge: 'Create a container that keeps the bar clean and organized without slowing down service.',
-    learning: 'Feedback from the people using a product is essential. It took several iterations before the holder fit naturally into the bartender’s workflow without slowing service down.',
+    challenge: 'Keep the cans organized without making them harder to reach during service.',
+    learning: 'It took a few versions before the shape felt natural to use. Feedback from the bartenders mattered more than my first idea.',
     media: [
       { type: 'image', src: '/projects/pop-can-holder/detail-one.jpeg', alt: 'Detail view of the can holder', caption: 'Installed on location' },
       { type: 'image', src: '/projects/pop-can-holder/installed.jpeg', alt: 'Black honeycomb can holder installed at a bar', caption: 'Honeycomb construction' },
@@ -127,11 +131,12 @@ const projects: Project[] = [
     title: 'Thermostat Cover',
     category: 'Personal',
     year: '2026',
-    lede: 'A clean wall cover that hides a thermostat.',
-    description: 'I modelled the enclosure to slide over the thermostat and block the light coming from its display. A hinged panel provides easy access, while embedded magnets keep the cover securely closed.',
+    lede: 'A hinged magnetic cover built because one tiny red screen insisted on lighting the entire room.',
+    description: 'I modelled the enclosure to slide over the thermostat and block the display. A hinged panel keeps it accessible, and embedded magnets hold the cover closed.',
     tags: ['CAD', '3D Printing', 'Hinged Mechanism', 'Enclosure Design'],
     challenge: 'Block the light coming from the thermostat without reducing its functionality.',
-    learning: 'Different colours of the same material can behave very differently, especially when the design needs to block light.',
+    learning: 'Different colours of the same material block light very differently. The first print made that clear.',
+    pipNote: 'One red screen started all of this.',
     media: [
       { type: 'image', src: '/projects/thermostat-cover/revealed.jpeg', alt: 'White 3D-printed thermostat cover hinged open above the thermostat', caption: 'Hinged access' },
       { type: 'image', src: '/projects/thermostat-cover/front.jpeg', alt: 'White thermostat cover installed on a wall', caption: 'Clean front view' },
@@ -168,7 +173,7 @@ function MediaVisual({ media, compact = false }: { media: Media; compact?: boole
   if (media.type === 'model') {
     return <ModelViewer src={media.src!} alt={media.alt} compact={compact} />;
   }
-  return <div className="media-note"><span>BACKEND</span><strong>Built for the team</strong><small>{media.detail}</small></div>;
+  return <div className="media-note"><span>MY PART</span><strong>Backend</strong><small>{media.detail}</small></div>;
 }
 
 function ProjectCard({ project, onGallery, onMedia }: { project: Project; onGallery: (project: Project) => void; onMedia: (project: Project, media: Media) => void }) {
@@ -239,25 +244,34 @@ export default function Home() {
       <SiteHeader />
 
       <section className="hero shell" id="top">
-        <div className="hero-card">
-          <p className="hero-label">Hello, I&apos;m</p>
-          <h1>Nicholas Medland</h1>
-          <p className="hero-role">Electronics Engineering Student</p>
-          <p className="hero-intro">I combine electronics, mechanical design, fabrication, and software to turn ideas into working physical experiences. I&apos;m especially interested in interactive machines, robotics, and the small details that make technology feel delightful to use.</p>
-          <div className="hero-actions"><a className="button button-primary" href="#work">Explore my work <span aria-hidden="true">↓</span></a></div>
+        <div className="hero-copy">
+          <p className="hero-label">Hi, I&apos;m Nicholas.</p>
+          <h1>I build things, figure out why they don&apos;t work, and <em>try again.</em></h1>
+          <p className="hero-intro">I study electronics engineering at SFU. My projects usually land somewhere between electronics, mechanical design, software, and a very specific problem I decided to fix.</p>
+          <div className="hero-actions"><a className="button button-primary" href="#work">See what I&apos;ve made <span aria-hidden="true">↓</span></a><a href="/resume">View my résumé</a></div>
+          <p className="hero-now"><b>Interested in:</b> electronics, prototyping, and learning how interactive technology can make ordinary things more memorable.</p>
+        </div>
+        <div className="hero-scene">
+          <div className="hero-orbit" />
+          <figure className="hero-photo"><span /><img src="/projects/card-shuffler/assembled.png" alt="Nicholas's automated card shuffler prototype" /><figcaption>First useful lesson: cards are surprisingly uncooperative.</figcaption></figure>
+          <Pip />
+          <span className="hero-spark">✦</span>
         </div>
       </section>
 
       <section className="work shell" id="work">
-        <div className="section-heading"><div><p className="eyebrow"><span /> Selected work</p><h2>Things I&apos;ve made.</h2></div><p className="section-intro">A mix of school, commissioned, and personal projects—each one built by getting hands-on and figuring things out.</p></div>
+        <aside className="pip-project-rail" aria-hidden="true"><span /><PipMini /></aside>
+        <div className="work-main">
+        <div className="section-heading"><div><p className="eyebrow"><span /> Projects</p><h2>Things I&apos;ve made.</h2></div><p className="section-intro">School work, commissioned pieces, and personal projects. Most of them started with a problem I could point at.</p></div>
         <div className="filters" aria-label="Project categories">{filters.map((filter) => {
           const count = filter === 'All' ? projects.length : projects.filter((project) => project.category === filter).length;
           return <button key={filter} className={activeFilter === filter ? 'filter-active' : ''} aria-pressed={activeFilter === filter} onClick={() => setActiveFilter(filter)}>{filter} <span>{String(count).padStart(2, '0')}</span></button>;
         })}</div>
-        <div className="project-list">{visibleProjects.map((project) => <ProjectCard key={project.id} project={project} onGallery={setSelectedProject} onMedia={openLightbox} />)}</div>
+        <div className="project-list">{visibleProjects.map((project) => <div className="project-stop" key={project.id}><ProjectCard project={project} onGallery={setSelectedProject} onMedia={openLightbox} />{project.pipNote && <PipNote>{project.pipNote}</PipNote>}</div>)}</div>
+        </div>
       </section>
 
-      <footer id="contact"><div className="shell footer-grid"><div><p className="eyebrow"><span /> What&apos;s next?</p><h2>Let&apos;s build something <em>real.</em></h2></div><div><p>I&apos;m open to electronics, prototyping, and interactive-systems opportunities.</p><a href="mailto:npm3@sfu.ca">npm3@sfu.ca ↗</a><br /><a href="/resume">View my résumé →</a><br /><a href="#top">Back to top ↑</a></div></div></footer>
+      <footer id="contact"><div className="shell footer-grid"><div><p className="eyebrow"><span /> Thanks for looking</p><h2>Want to talk?</h2><div className="footer-pip" aria-hidden="true"><PipMini /></div></div><div><p>If you&apos;re hiring for an electronics, prototyping, or hands-on technical role, I&apos;d be happy to hear from you.</p><a href="mailto:npm3@sfu.ca">npm3@sfu.ca ↗</a><br /><a href="/resume">View my résumé →</a><br /><a href="#top">Back to top ↑</a></div></div></footer>
 
       {selectedProject && <div className="modal-backdrop" onMouseDown={(event) => { if (event.currentTarget === event.target) setSelectedProject(null); }}>
         <section className="gallery-modal" role="dialog" aria-modal="true" aria-labelledby="gallery-title">
