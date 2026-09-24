@@ -53,6 +53,22 @@ const projects: Project[] = [
     ],
   },
   {
+    id: 'elevator-control',
+    title: 'VHDL Elevator Control System',
+    category: 'School',
+    year: '2025',
+    lede: 'A four-floor elevator controller written in VHDL and run on a DE10-Standard FPGA board.',
+    description: 'Working with a partner, I built the top-level design, request scheduler, and seven-state controller. The finished system could queue one request per floor, keep serving floors in its current direction before turning around, and handle soft resets, hard resets, and an emergency stop.',
+    tags: ['VHDL', 'FPGA', 'Finite State Machines', 'Digital Logic', 'Intel Quartus'],
+    challenge: 'Keep the scheduler, controller, timers, physical inputs, and displays coordinated without losing a queued floor or leaving the elevator in the wrong state.',
+    learning: 'Breaking the system into smaller modules made complicated behaviour much easier to reason about and test. It was also satisfying to watch code turn into something I could control with real switches, buttons, and displays.',
+    media: [
+      { type: 'video', src: '/projects/elevator-control/demo.m4v', alt: 'Four-floor VHDL elevator controller running on a DE10-Standard FPGA board', caption: 'Working FPGA demonstration' },
+      { type: 'image', src: '/projects/elevator-control/architecture.png', alt: 'Quartus block diagram for the VHDL elevator control system', caption: 'System architecture' },
+      { type: 'image', src: '/projects/elevator-control/state-machine.png', alt: 'Seven-state finite state machine diagram for the elevator controller', caption: 'Controller state machine' },
+    ],
+  },
+  {
     id: 'to-go-containers',
     title: 'Custom Barware System',
     category: 'Commissioned',

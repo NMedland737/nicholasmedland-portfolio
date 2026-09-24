@@ -1,0 +1,734 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
+ */
+package sudokugame;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+/**
+ *
+ * @author nicholasmedland 
+ */
+public class SudokuGame {
+
+    public static final int ROWS = 9;
+    public static final int COLS = 9;
+    public static int CHANGED = 0;
+    private static int[][] playerBoard;
+    private static ArrayList<Integer>[][] legalMoves;
+    private static int[][] puzzle100 = {
+        {0, 0, 0, 0, 0, 6, 9, 5, 0},
+        {0, 2, 0, 0, 0, 4, 0, 0, 0},
+        {0, 0, 3, 0, 0, 0, 0, 0, 4},
+        {0, 0, 0, 0, 5, 9, 3, 0, 8},
+        {0, 0, 0, 1, 0, 3, 0, 0, 0},
+        {9, 0, 1, 7, 8, 0, 0, 0, 0},
+        {6, 0, 0, 0, 0, 0, 2, 0, 0},
+        {0, 0, 0, 4, 0, 0, 0, 8, 0},
+        {0, 8, 9, 5, 0, 0, 0, 0, 0}
+    };
+    private static int[][] evilPuzzle = {
+        {7, 0, 0, 0, 6, 0, 0, 3, 0},
+        {0, 5, 0, 0, 0, 1, 2, 0, 6},
+        {0, 0, 2, 0, 0, 0, 0, 4, 0},
+        {0, 0, 0, 0, 0, 0, 0, 6, 0},
+        {8, 0, 0, 0, 0, 5, 0, 0, 0},
+        {0, 0, 3, 0, 1, 0, 9, 0, 7},
+        {0, 0, 9, 0, 7, 0, 1, 0, 2},
+        {0, 0, 0, 0, 0, 0, 4, 0, 0},
+        {0, 3, 0, 9, 0, 0, 0, 0, 0},};
+
+    private static int[][] puzzle99 = {
+        {5, 0, 0, 0, 0, 4, 0, 0, 0},
+        {0, 3, 0, 0, 7, 0, 0, 6, 9},
+        {0, 0, 0, 0, 0, 5, 7, 8, 0},
+        {0, 0, 5, 2, 0, 0, 0, 0, 8},
+        {0, 2, 0, 0, 0, 0, 0, 9, 0},
+        {4, 0, 0, 0, 0, 9, 3, 0, 0},
+        {0, 6, 9, 3, 0, 0, 0, 0, 0},
+        {3, 4, 0, 0, 1, 0, 0, 7, 0},
+        {0, 0, 8, 4, 0, 0, 0, 0, 3},};
+    
+    private static int[][] puzzle13 = {
+        {0, 0, 7, 0, 3, 0, 0, 0, 4},
+        {2, 0, 5, 7, 0, 4, 6, 0, 0},
+        {0, 0, 0, 0, 0, 8, 9, 2, 7},
+        {0, 0, 8, 0, 4, 7, 0, 5, 0},
+        {0, 0, 2, 0, 8, 0, 4, 0, 0},
+        {0, 4, 0, 2, 9, 0, 8, 0, 0},
+        {1, 8, 4, 5, 0, 0, 0, 0, 0},
+        {0, 0, 3, 8, 0, 9, 1, 0, 5},
+        {7, 0, 0, 0, 6, 0, 3, 0, 0},};
+
+    private static void initializeboard(int[][] board) {
+        playerBoard = new int[ROWS][COLS];
+        for (int r = 0; r < ROWS; r++) {
+            for (int c = 0; c < COLS; c++) {
+                playerBoard[r][c] = board[r][c];
+            }
+        }
+    }
+
+    private static void initializeLegalMoves() {
+        legalMoves = new ArrayList[ROWS][COLS];
+        for (int r = 0; r < ROWS; r++) {
+            for (int c = 0; c < COLS; c++) {
+                legalMoves[r][c] = new ArrayList(COLS);
+                for (int value = 1; value <= COLS; value++) {
+                    if (playerBoard[r][c] == 0) {
+                        legalMoves[r][c].add(value);
+                    }
+                }
+
+            }
+        }
+    }
+
+    public static void removeLegalMoves() {
+        for (int r = 0; r < ROWS; r++) {
+            for (int c = 0; c < COLS; c++) {
+                ArrayList<Integer> array = new ArrayList<Integer>();
+                for (int i = 0; i < legalMoves[r][c].size(); i++) {
+                    if (!isValid(legalMoves[r][c].get(i), r, c)) {
+//                        System.out.print(i + " ");
+//                        System.out.print(legalMoves[r][c].get(i) + " ");
+//                        System.out.print(r + " ");
+//                        System.out.print(c + " ");
+//                        System.out.println();
+                        legalMoves[r][c].remove(i);
+                        i--;
+                    }
+                }
+            }
+        }
+    }
+
+    public static boolean isValid(int num, int row, int column) {
+//        System.out.println("box" + checkBox(num,row,column));
+//        System.out.println("row" + checkRow(num,row));
+//        System.out.println("column" + checkColumn(num,column));
+        return (!checkBox(num, row, column) && !checkRow(num, row) && !checkColumn(num, column) && (playerBoard[row][column] == 0));
+    }
+
+    public static boolean checkBox(int num, int row, int column) {
+        boolean isInBox = false;
+        int rowMod = row - row % 3;
+        int columnMod = column - column % 3;
+        for (int r = rowMod; r < (rowMod + 3); r++) {
+            for (int c = columnMod; c < (columnMod + 3); c++) {
+                if (num == playerBoard[r][c]) {
+                    isInBox = true;
+                }
+            }
+        }
+        //System.out.println("rowMod" + rowMod);
+        //System.out.println("columnMod" + columnMod);
+        return isInBox;
+
+    }
+
+    public static boolean checkRow(int num, int row) {
+        boolean isInRow = false;
+        for (int c = 0; c < COLS; c++) {
+            if (num == playerBoard[row][c]) {
+                isInRow = true;
+            }
+        }
+        return isInRow;
+    }
+
+    public static boolean checkColumn(int num, int column) {
+        boolean isInColumn = false;
+        for (int r = 0; r < ROWS; r++) {
+            if (num == playerBoard[r][column]) {
+                isInColumn = true;
+            }
+        }
+        return isInColumn;
+    }
+
+    public static void printArray(int[] array) {
+        for (int c = 0; c < array.length; c++) {
+            System.out.print(array[c] + "\t");
+        }
+        System.out.println();
+    }
+
+    public static void printList(List<Integer> list) {
+        for (int c = 0; c < list.size(); c++) {
+            System.out.print(list.get(c) + "\t");
+        }
+        System.out.println();
+    }
+
+    public static void printCard() {
+        for (int r = 0; r < ROWS; r++) {
+            for (int c = 0; c < COLS; c++) {
+                System.out.print(playerBoard[r][c] + " ");
+            }
+            System.out.println();
+        }
+    }
+
+    public static void printCardBlanks() {
+        for (int r = 0; r < ROWS; r++) {
+            for (int c = 0; c < COLS; c++) {
+                if (playerBoard[r][c] == 0) {
+                    System.out.print(" " + " ");
+                } else {
+                    System.out.print(playerBoard[r][c] + " ");
+                }
+            }
+            System.out.println();
+        }
+    }
+
+    public static void printLegalMovesInRow(int row) {
+        ArrayList<Integer> missingLocation = locationOfMissingRow(row);
+        System.out.println("legel moves in row " + row);
+        for (int l = 0; l < missingLocation.size(); l++) {
+            printList(legalMoves[row][missingLocation.get(l)]);
+        }
+
+    }
+
+    public static void printLegalMovesInColumn(int column) {
+        ArrayList<Integer> missingLocation = locationOfMissingColumn(column);
+        System.out.println("legel moves in column " + column);
+        for (int l = 0; l < missingLocation.size(); l++) {
+            printList(legalMoves[missingLocation.get(l)][column]);
+        }
+
+    }
+
+    public static void printLegalMovesInBox(int row, int column) {
+        ArrayList<Integer> missingLocation = locationOfMissingBox(row, column);
+        System.out.println("legel moves in box " + row + " " + column);
+        for (int l = 0; l < missingLocation.size() - 1; l += 2) {
+            printList(legalMoves[missingLocation.get(l)][missingLocation.get(l + 1)]);
+        }
+    }
+
+    public static boolean complete() {
+        boolean isComplete = true;
+        for (int r = 0; r < ROWS; r++) {
+            for (int c = 0; c < COLS; c++) {
+                if (playerBoard[r][c] == 0) {
+                    isComplete = false;
+                }
+            }
+        }
+        return isComplete;
+    }
+
+    //trying to solve
+    public static void solve() {
+        for (int i = 0; i < 100; i++) {
+            removeLegalMoves();
+            placeNumber();
+            oneInRow();
+            oneInCol();
+            oneInBox();
+            pairInBox();
+            pairInRow();
+            pairInColumn();
+        }
+//        while(!complete()){
+//            placeNumber();
+//        }
+
+    }
+
+    public static void pairInBox() {
+        for (int r1 = 0; r1 < ROWS; r1 += 3) {
+            for (int c1 = 0; c1 < COLS; c1 += 3) {
+                ArrayList<Integer> missingLocation = locationOfMissingBox(r1, c1);
+                ArrayList<Integer> locations = new ArrayList<Integer>();
+                ArrayList<Integer> removeNum = new ArrayList<Integer>();
+                for (int l = 0; l < missingLocation.size() - 1; l += 2) {
+                    if (legalMoves[missingLocation.get(l)][missingLocation.get(l + 1)].size() == 2) {
+                        locations.add(missingLocation.get(l));
+                        locations.add(missingLocation.get(l + 1));
+                    }
+                }
+                //System.out.println("box " + r1 + " " + c1);
+                //printList(locations);
+                if (locations.size() > 3) {
+                    for (int l = 0; l < locations.size() - 3; l += 2) {
+                        int firstNum = legalMoves[locations.get(l)][locations.get(l + 1)].get(0);
+                        int secondNum = legalMoves[locations.get(l)][locations.get(l + 1)].get(1);
+                        for (int i = l + 2; i < locations.size() - 1; i += 2) {
+                            if (firstNum == legalMoves[locations.get(i)][locations.get(i + 1)].get(0)) {
+                                if (secondNum == legalMoves[locations.get(i)][locations.get(i + 1)].get(1)) {
+                                    removeNum.add(firstNum);
+                                    removeNum.add(secondNum);
+                                }
+                            }
+                        }
+
+                    }
+                }
+//                System.out.println("remove list");
+//                printList(removeNum);    
+//                System.out.println("missing Location size " + missingLocation.size());
+//                System.out.println("missingLocation");
+//                printList(missingLocation);   
+//                System.out.println("locations");
+//                printList(locations);
+                for (int l = 0; l < missingLocation.size() - 1; l += 2) {
+                    if (legalMoves[missingLocation.get(l)][missingLocation.get(l + 1)].size() == 2) {
+                        int firstNum = legalMoves[missingLocation.get(l)][missingLocation.get(l + 1)].get(0);
+                        int secondNum = legalMoves[missingLocation.get(l)][missingLocation.get(l + 1)].get(1);
+                        boolean isPair = false;
+                        for (int i = 0; i < removeNum.size() - 1; i += 2) {
+                            if (firstNum == removeNum.get(i) && secondNum == removeNum.get(i + 1)) {
+                                isPair = true;
+                            }
+                        }
+                        if (!isPair) {
+                            removeDup(legalMoves[missingLocation.get(l)][missingLocation.get(l + 1)], removeNum);
+                        }
+                    } else {
+                        removeDup(legalMoves[missingLocation.get(l)][missingLocation.get(l + 1)], removeNum);
+                    }
+                }
+            }
+        }
+    }
+
+    public static void pairInRow() {
+        for (int r = 0; r < ROWS; r++) {
+            for (int c = 0; c < COLS; c++) {
+                ArrayList<Integer> missingLocation = locationOfMissingRow(r);
+                ArrayList<Integer> locations = new ArrayList<Integer>();
+                ArrayList<Integer> removeNum = new ArrayList<Integer>();
+                for (int l = 0; l < missingLocation.size(); l++) {
+                    if (legalMoves[r][missingLocation.get(l)].size() == 2) {
+                        locations.add(r);
+                        locations.add(missingLocation.get(l));
+                    }
+                }
+                //System.out.println("box " + r1 + " " + c1);
+                //printList(locations);
+                if (locations.size() > 3) {
+                    for (int l = 0; l < locations.size() - 3; l += 2) {
+                        int firstNum = legalMoves[locations.get(l)][locations.get(l + 1)].get(0);
+                        int secondNum = legalMoves[locations.get(l)][locations.get(l + 1)].get(1);
+                        for (int i = l + 2; i < locations.size() - 1; i += 2) {
+                            if (firstNum == legalMoves[locations.get(i)][locations.get(i + 1)].get(0)) {
+                                if (secondNum == legalMoves[locations.get(i)][locations.get(i + 1)].get(1)) {
+                                    removeNum.add(firstNum);
+                                    removeNum.add(secondNum);
+                                }
+                            }
+                        }
+
+                    }
+                }
+//                System.out.println("remove list");
+//                printList(removeNum);    
+//                System.out.println("missing Location size " + missingLocation.size());
+//                System.out.println("missingLocation");
+//                printList(missingLocation);   
+//                System.out.println("locations");
+//                printList(locations);
+                for (int l = 0; l < missingLocation.size(); l++) {
+                    if (legalMoves[r][missingLocation.get(l)].size() == 2) {
+                        int firstNum = legalMoves[r][missingLocation.get(l)].get(0);
+                        int secondNum = legalMoves[r][missingLocation.get(l)].get(1);
+                        boolean isPair = false;
+                        for (int i = 0; i < removeNum.size() - 1; i += 2) {
+                            if (firstNum == removeNum.get(i) && secondNum == removeNum.get(i + 1)) {
+                                isPair = true;
+                            }
+                        }
+                        if (!isPair) {
+                            removeDup(legalMoves[r][missingLocation.get(l)], removeNum);
+                        }
+                    } else {
+                        removeDup(legalMoves[r][missingLocation.get(l)], removeNum);
+                    }
+                }
+            }
+        }
+    }
+
+    public static void pairInColumn() {
+        for (int c = 0; c < COLS; c++) {
+            for (int r = 0; r < ROWS; r++) {
+                ArrayList<Integer> missingLocation = locationOfMissingColumn(c);
+                ArrayList<Integer> locations = new ArrayList<Integer>();
+                ArrayList<Integer> removeNum = new ArrayList<Integer>();
+                for (int l = 0; l < missingLocation.size(); l++) {
+                    if (legalMoves[missingLocation.get(l)][c].size() == 2) {
+                        locations.add(missingLocation.get(l));
+                        locations.add(c);
+                    }
+                }
+                //System.out.println("box " + r1 + " " + c1);
+                //printList(locations);
+                if (locations.size() > 3) {
+                    for (int l = 0; l < locations.size() - 3; l += 2) {
+                        int firstNum = legalMoves[locations.get(l)][locations.get(l + 1)].get(0);
+                        int secondNum = legalMoves[locations.get(l)][locations.get(l + 1)].get(1);
+                        for (int i = l + 2; i < locations.size() - 1; i += 2) {
+                            if (firstNum == legalMoves[locations.get(i)][locations.get(i + 1)].get(0)) {
+                                if (secondNum == legalMoves[locations.get(i)][locations.get(i + 1)].get(1)) {
+                                    removeNum.add(firstNum);
+                                    removeNum.add(secondNum);
+                                }
+                            }
+                        }
+
+                    }
+                }
+//                System.out.println("remove list");
+//                printList(removeNum);    
+//                System.out.println("missing Location size " + missingLocation.size());
+//                System.out.println("missingLocation");
+//                printList(missingLocation);   
+//                System.out.println("locations");
+//                printList(locations);
+                for (int l = 0; l < missingLocation.size(); l++) {
+                    if (legalMoves[missingLocation.get(l)][c].size() == 2) {
+                        int firstNum = legalMoves[missingLocation.get(l)][c].get(0);
+                        int secondNum = legalMoves[missingLocation.get(l)][c].get(1);
+                        boolean isPair = false;
+                        for (int i = 0; i < removeNum.size() - 1; i += 2) {
+                            if (firstNum == removeNum.get(i) && secondNum == removeNum.get(i + 1)) {
+                                isPair = true;
+                            }
+                        }
+                        if (!isPair) {
+                            removeDup(legalMoves[missingLocation.get(l)][c], removeNum);
+                        }
+                    } else {
+                        removeDup(legalMoves[missingLocation.get(l)][c], removeNum);
+                    }
+                }
+            }
+        }
+    }
+
+    public static ArrayList<Integer> removeDup(ArrayList<Integer> orginal, ArrayList<Integer> remove) {
+        for (int r = 0; r < remove.size(); r++) {
+            for (int o = 0; o < orginal.size(); o++) {
+                if (remove.get(r) == orginal.get(o)) {
+                    orginal.remove(o);
+                    o--;
+                }
+            }
+        }
+        return orginal;
+    }
+
+    public static void oneInBox() {
+        for (int r1 = 0; r1 < ROWS; r1 += 3) {
+            for (int c1 = 0; c1 < COLS; c1 += 3) {
+                for (int n = 1; n <= 9; n++) {
+                    int times = 0;
+                    int row = 0;
+                    int col = 0;
+                    for (int r2 = r1; r2 < r1 + 3; r2++) {
+                        for (int c2 = c1; c2 < c1 + 3; c2++) {
+                            for (int i = 0; i < legalMoves[r2][c2].size(); i++) {
+                                if (legalMoves[r2][c2].get(i) == n) {
+                                    times++;
+                                    row = r2;
+                                    col = c2;
+                                }
+                            }
+
+                        }
+                    }
+                    if (times == 1 && isValid(n, row, col)) {
+                        playerBoard[row][col] = n;
+                        CHANGED++;
+                    }
+                }
+            }
+        }
+    }
+
+    public static void oneInRow() {
+        for (int r = 0; r < ROWS; r++) {
+            for (int n = 1; n <= 9; n++) {
+                int times = 0;
+                int row = 0;
+                int col = 0;
+                for (int c = 0; c < COLS; c++) {
+                    for (int i = 0; i < legalMoves[r][c].size(); i++) {
+                        if (legalMoves[r][c].get(i) == n) {
+                            times++;
+                            row = r;
+                            col = c;
+                        }
+                    }
+                }
+                if (times == 1 && isValid(n, row, col)) {
+                    playerBoard[row][col] = n;
+                    CHANGED++;
+                }
+            }
+        }
+    }
+
+    public static void oneInCol() {
+        for (int c = 0; c < COLS; c++) {
+            for (int n = 1; n <= 9; n++) {
+                int times = 0;
+                int row = 0;
+                int col = 0;
+                for (int r = 0; r < ROWS; r++) {
+                    for (int i = 0; i < legalMoves[r][c].size(); i++) {
+                        if (legalMoves[r][c].get(i) == n) {
+                            times++;
+                            row = r;
+                            col = c;
+                        }
+                    }
+                }
+                if (times == 1 && isValid(n, row, col)) {
+                    playerBoard[row][col] = n;
+                    CHANGED++;
+                }
+            }
+        }
+    }
+
+    public static ArrayList<Integer> locationOfMissingRow(int row) {
+        ArrayList<Integer> missingLocation = new ArrayList<Integer>();
+        for (int c = 0; c < COLS; c++) {
+            if (playerBoard[row][c] == 0) {
+                missingLocation.add(c);
+            }
+        }
+        return missingLocation;
+    }
+
+    public static ArrayList<Integer> locationOfMissingColumn(int column) {
+        ArrayList<Integer> missingLocation = new ArrayList<Integer>();
+        for (int r = 0; r < ROWS; r++) {
+            if (playerBoard[r][column] == 0) {
+                missingLocation.add(r);
+            }
+        }
+        return missingLocation;
+    }
+
+    public static ArrayList<Integer> locationOfMissingBox(int row, int column) {
+        ArrayList<Integer> missingLocation = new ArrayList<Integer>();
+        int rowMod = row - row % 3;
+        int columnMod = column - column % 3;
+        for (int r = rowMod; r < (rowMod + 3); r++) {
+            for (int c = columnMod; c < (columnMod + 3); c++) {
+                if (playerBoard[r][c] == 0) {
+                    missingLocation.add(r);
+                    missingLocation.add(c);
+                }
+            }
+        }
+        return missingLocation;
+    }
+
+    public static ArrayList<Integer> missingFromRow(int row) {
+        ArrayList<Integer> missingNumber = new ArrayList<Integer>();
+        for (int n = 1; n <= 9; n++) {
+            boolean missing = true;
+            for (int c = 0; c < COLS; c++) {
+                if (playerBoard[row][c] == n) {
+                    missing = false;
+                }
+            }
+            if (missing) {
+                missingNumber.add(n);
+            }
+
+        }
+        //printList(missingNumber);
+        return missingNumber;
+    }
+
+    public static List<Integer> missingFromColumn(int column) {
+        ArrayList<Integer> missingNumber = new ArrayList<Integer>();
+        for (int n = 1; n <= 9; n++) {
+            boolean missing = true;
+            for (int r = 0; r < ROWS; r++) {
+                if (playerBoard[r][column] == n) {
+                    missing = false;
+                }
+            }
+            if (missing) {
+                missingNumber.add(n);
+            }
+
+        }
+        //printList(missingNumber);
+        return missingNumber;
+    }
+
+    public static void placeNumber() {
+        for (int r = 0; r < ROWS; r++) {
+            for (int c = 0; c < COLS; c++) {
+                if (legalMoves[r][c].size() == 1) {
+                    playerBoard[r][c] = legalMoves[r][c].get(0);
+                    CHANGED++;
+                }
+            }
+        }
+    }
+
+    public static void printNumberOfPossiblities() {
+        int solved = 0;
+        int one = 0;
+        int two = 0;
+        int three = 0;
+        int four = 0;
+        int five = 0;
+        int six = 0;
+        int seven = 0;
+        int eight = 0;
+        int nine = 0;
+        for (int r = 0; r < ROWS; r++) {
+            for (int c = 0; c < COLS; c++) {
+                //System.out.println(r + " " + c + " " + legalMoves[r][c].size());
+                switch (legalMoves[r][c].size()) {
+                    case 0:
+                        solved++;
+                        break;
+                    case 1:
+                        one++;
+                        break;
+                    case 2:
+                        two++;
+                        break;
+                    case 3:
+                        three++;
+                        break;
+                    case 4:
+                        four++;
+                        break;
+                    case 5:
+                        five++;
+                        break;
+                    case 6:
+                        six++;
+                        break;
+                    case 7:
+                        seven++;
+                        break;
+                    case 8:
+                        eight++;
+                        break;
+                    case 9:
+                        nine++;
+                        break;
+                }
+
+            }
+        }
+        System.out.println("solved " + solved);
+        System.out.println("one " + one);
+        System.out.println("two " + two);
+        System.out.println("three " + three);
+        System.out.println("four " + four);
+        System.out.println("five " + five);
+        System.out.println("six " + six);
+        System.out.println("seven " + seven);
+        System.out.println("eight " + eight);
+        System.out.println("nine " + nine);
+    }
+
+    public static void place(int num, int row, int col) {
+        if (isValid(num, row, col)) {
+            playerBoard[row][col] = num;
+            removeLegalMoves();
+            printCardBlanks();
+            //printLegalMovesInRow(row);
+        } else {
+            System.out.println("not a valid move");
+        }
+    }
+
+    public static void remove(int[][] board, int row, int col) {
+        if (board[row][col] == 0) {
+            playerBoard[row][col] = 0;
+            initializeLegalMoves();
+            removeLegalMoves();
+            printCardBlanks();
+            //printLegalMovesInRow(row);
+        } else {
+            System.out.println("cant remove that one");
+        }
+    }
+
+    public static void clear(int[][] board) {
+        initializeboard(board);
+        initializeLegalMoves();
+        removeLegalMoves();
+    }
+
+    public static void instruction(Scanner input) {
+
+        System.out.println("welcome to Nicholas' amazing sudoku game");
+        System.out.println("Standard rules apply");
+        System.out.println("to place a number type \"place\" and then press "
+                + "return followed by the number you want to place the row and the column");
+        System.out.println("to remove a number type \"remove\" and then press "
+                + "return followed by the row and the column it is in");
+        System.out.println("to start over type \"clear\" and then press return");
+        System.out.println("if you give up and want the answer type \"solve\" and then press return");
+        System.out.println("if you are ready to start type \"start\" and then press return");
+        String playerInput = input.nextLine();
+        if (playerInput.equals("start")) {
+            printCardBlanks();
+        }
+    }
+
+    public static void playerInput(Scanner input, int[][] board) {
+        String playerInput = input.nextLine();
+        if (playerInput.equals("solve")) {
+            clear(board);
+            solve();
+            printCardBlanks();
+        } else if (playerInput.equals("place")) {
+            int num = input.nextInt();
+            int row = input.nextInt() - 1;
+            int col = input.nextInt() - 1;
+            place(num, row, col);
+            //System.out.println("row " + row + "col "+ col + "num " + num);
+        } else if (playerInput.equals("remove")) {
+            int row = input.nextInt() - 1;
+            int col = input.nextInt() - 1;
+            remove(board, row, col);
+        } else if (playerInput.equals("clear")) {
+            clear(board);
+            printCardBlanks();
+        }
+        if (!complete()) {
+            if (!playerInput.equals("end")) {
+                playerInput(input, board);
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        int[][] board = puzzle100;
+        Scanner input = new Scanner(System.in);
+        initializeboard(board);
+        initializeLegalMoves();
+        removeLegalMoves();
+        instruction(input);
+        playerInput(input, board);
+//        printNumberOfPossiblities();
+//        solve();
+//        printCardBlanks();
+//        printNumberOfPossiblities();
+//        System.out.println(CHANGED);
+
+    }
+
+}

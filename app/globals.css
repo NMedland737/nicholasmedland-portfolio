@@ -106,6 +106,7 @@ h2 { margin-bottom: 0; font-size: clamp(44px, 5.7vw, 76px); line-height: 1; lett
 .project-media-portrait .media-main img { object-position: center; }
 .project-media-portrait .media-small { grid-column: 2; aspect-ratio: auto; min-height: 0; }
 .project-media-portrait .media-small:nth-of-type(2) img { object-position: center 78%; }
+#fifa-trophy .media-small:nth-of-type(2) img { object-position: center top; }
 .project-media figcaption { position: absolute; z-index: 4; left: 10px; bottom: 10px; border-radius: 999px; background: #fffef2ed; padding: 5px 9px; font-size: 10px; font-weight: 800; pointer-events: none; }
 .video-thumb { background: #0d1e2f !important; }
 .video-thumb video { opacity: .65; }
@@ -461,3 +462,109 @@ footer .footer-grid > div:last-child { color: #d8ded5; }
 .construction-orbit b { background: var(--coral); }
 .construction-pip { margin-bottom: 24px; }
 .construction-pip .pip-mini { scale: 1.18; }
+
+/* Games — Sudoku lab */
+.games-page { min-height: 100vh; }
+.games-hero { min-height: 640px; display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(280px, .75fr); gap: clamp(60px, 9vw, 140px); align-items: center; padding-block: 95px 110px; border-bottom: 1px solid var(--line); }
+.games-hero h1 { margin-bottom: 30px; font-family: Georgia, 'Times New Roman', serif; }
+.games-hero > div > p:last-child { max-width: 680px; margin: 0; color: var(--ink-soft); font-size: clamp(18px, 2vw, 22px); }
+.games-hero aside { position: relative; align-self: center; border: 1px solid var(--ink); border-radius: 7px; padding: 34px 30px; background: #fff6d9; box-shadow: 8px 9px 0 var(--mint); transform: rotate(2deg); }
+.games-hero aside::before { content: ''; position: absolute; width: 92px; height: 24px; left: 50%; top: -13px; translate: -50% 0; background: #ead69dcc; transform: rotate(-2deg); }
+.games-hero aside span { display: block; margin-bottom: 18px; color: #718577; font-size: 10px; font-weight: 900; letter-spacing: .13em; text-transform: uppercase; }
+.games-hero aside p { margin-bottom: 14px; font: 24px/1.25 Georgia, 'Times New Roman', serif; }
+.games-hero aside strong { font: 17px 'Bradley Hand', 'Comic Sans MS', cursive; color: var(--coral); }
+
+.sudoku-section, .games-algorithms { padding-block: 110px; }
+.games-section-heading { margin-bottom: 52px; }
+.sudoku-app { border: 1px solid var(--ink); border-radius: 26px; padding: clamp(20px, 4vw, 50px); background: var(--card); box-shadow: 11px 12px 0 #d8c987; }
+.sudoku-toolbar { display: flex; justify-content: flex-end; margin-bottom: 28px; padding-bottom: 20px; border-bottom: 1px dashed var(--line); }
+.sudoku-toolbar button { border: 1px solid var(--ink); border-radius: 999px; padding: 9px 15px; background: var(--butter); color: var(--ink); cursor: pointer; font-size: 11px; font-weight: 900; letter-spacing: .04em; }
+.sudoku-toolbar button:hover:not(:disabled) { background: var(--ink); color: var(--butter); }
+.sudoku-toolbar button:disabled { cursor: wait; opacity: .55; }
+.sudoku-workbench { display: grid; grid-template-columns: minmax(0, 560px) minmax(300px, 1fr); gap: clamp(42px, 7vw, 90px); align-items: center; }
+.sudoku-board-panel { width: 100%; max-width: 560px; min-width: 0; }
+.sudoku-grid { width: 100%; aspect-ratio: 1; display: grid; grid-template-columns: repeat(9, 1fr); border: 3px solid var(--ink); border-radius: 8px; overflow: hidden; background: var(--ink); box-shadow: 7px 8px 0 #b9add1; }
+.sudoku-cell { position: relative; min-width: 0; width: 100%; height: 100%; border-right: 1px solid #9da69d; border-bottom: 1px solid #9da69d; background: #fffdf7; transition: background .12s, color .12s; }
+.sudoku-cell input { position: absolute; z-index: 2; inset: 0; width: 100%; height: 100%; border: 0; border-radius: 0; outline: 0; background: transparent; color: var(--ink); caret-color: var(--coral); font: 700 clamp(18px, 3vw, 29px)/1 Georgia, 'Times New Roman', serif; text-align: center; }
+.sudoku-cell:focus-within { z-index: 2; background: #fff0c3; box-shadow: inset 0 0 0 3px var(--coral); }
+.sudoku-given { background: #e4ead8; color: #526a59; cursor: default; font-weight: 900; }
+.sudoku-given input { color: #526a59; cursor: default; font-weight: 900; }
+.sudoku-error { background: #f7d3c9; color: #9d3d2b; }
+.sudoku-error input { color: #9d3d2b; }
+.sudoku-active { background: var(--butter); }
+.sudoku-cell.sudoku-conflict-given { background: #f8d8d5; box-shadow: inset 0 0 0 3px #df6458; }
+.sudoku-cell.sudoku-conflict-given input { color: #c63f39; }
+.sudoku-cell.sudoku-conflict-user { background: #fff0bd; box-shadow: inset 0 0 0 3px #dfa72c; }
+.sudoku-cell.sudoku-conflict-user input { color: #946400; }
+.sudoku-box-right { border-right: 3px solid var(--ink); }
+.sudoku-box-bottom { border-bottom: 3px solid var(--ink); }
+.sudoku-guess { position: absolute; z-index: 1; top: 5px; right: 7px; color: #a8aaa7; pointer-events: none; font: 750 clamp(8px, 1vw, 11px)/1 ui-sans-serif, system-ui, sans-serif; }
+.sudoku-below-grid { display: flex; gap: 18px; justify-content: space-between; align-items: flex-start; margin-top: 22px; }
+.sudoku-status { min-height: 24px; margin: 0; color: var(--ink-soft); font: 15px/1.45 'Bradley Hand', 'Comic Sans MS', cursive; }
+.sudoku-below-grid > button { flex: 0 0 auto; border: 1px solid var(--line); border-radius: 999px; padding: 8px 11px; background: transparent; color: var(--ink); cursor: pointer; font-size: 10px; font-weight: 850; }
+.sudoku-below-grid > button span { margin-left: 4px; color: var(--ink-soft); }
+.sudoku-below-grid > button.sudoku-pencil-active { border-color: var(--ink); background: #e4ead8; box-shadow: 2px 2px 0 var(--ink); }
+.sudoku-controls h2 { margin: 0 0 24px; font-family: Georgia, 'Times New Roman', serif; font-size: clamp(40px, 4.6vw, 61px); letter-spacing: -.045em; }
+.sudoku-controls > p { max-width: 470px; margin-bottom: 28px; color: var(--ink-soft); }
+.sudoku-solve { width: 100%; display: flex; flex-direction: column; align-items: flex-start; gap: 3px; border: 1px solid var(--ink); border-radius: 13px; margin-top: 12px; padding: 15px 18px; color: var(--ink); cursor: pointer; text-align: left; transition: transform .16s, box-shadow .16s; }
+.sudoku-solve:hover:not(:disabled) { transform: translate(2px, 2px); box-shadow: 2px 2px 0 var(--ink); }
+.sudoku-solve:disabled { cursor: wait; opacity: .58; }
+.sudoku-solve span { font-size: 9px; font-weight: 900; letter-spacing: .12em; text-transform: uppercase; }
+.sudoku-solve strong { font-size: 15px; }
+.sudoku-strategy { background: var(--mint); box-shadow: 5px 5px 0 var(--ink); }
+.sudoku-backtracking { background: var(--butter); box-shadow: 5px 5px 0 var(--ink); }
+.sudoku-small-actions { display: flex; gap: 10px; margin-top: 24px; }
+.sudoku-small-actions button { border: 0; border-bottom: 1px solid var(--ink); padding: 5px 0; background: transparent; color: var(--ink); cursor: pointer; font-size: 12px; font-weight: 800; }
+.sudoku-small-actions button + button { margin-left: auto; }
+
+.games-algorithms { border-top: 1px solid var(--line); }
+.algorithm-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+.algorithm-card { position: relative; border: 1px solid var(--ink); border-radius: 18px; padding: 28px; background: var(--card); overflow: hidden; }
+.algorithm-card::before { content: ''; position: absolute; inset: 0 auto 0 0; width: 7px; background: var(--mint); }
+.algorithm-card:last-child::before { background: var(--butter); }
+.algorithm-card > span { display: block; margin-bottom: 35px; color: var(--coral); font-size: 10px; font-weight: 900; letter-spacing: .12em; }
+.algorithm-card h3 { margin: 0 0 13px; font: 700 30px/1.05 Georgia, 'Times New Roman', serif; }
+.algorithm-card p { min-height: 68px; margin: 0 0 24px; color: var(--ink-soft); font-size: 14px; }
+.algorithm-card button { border: 0; border-bottom: 1px solid var(--ink); padding: 4px 0; background: transparent; color: var(--ink); cursor: pointer; font-size: 12px; font-weight: 900; }
+.algorithm-modal-backdrop { position: fixed; z-index: 1000; inset: 0; display: grid; place-items: center; padding: 24px; background: #27322eb8; backdrop-filter: blur(5px); }
+.algorithm-modal { width: min(900px, 100%); max-height: min(820px, calc(100vh - 48px)); display: flex; flex-direction: column; border: 1px solid var(--ink); border-radius: 20px; padding: 24px; background: #fffaf0; box-shadow: 12px 14px 0 #151e1a80; }
+.algorithm-modal header { display: flex; justify-content: space-between; gap: 30px; align-items: flex-start; margin-bottom: 18px; }
+.algorithm-modal header p { margin: 0 0 4px; color: var(--coral); font-size: 11px; font-weight: 900; letter-spacing: .06em; }
+.algorithm-modal h2 { margin: 0; font: 700 clamp(30px, 4vw, 44px)/1 Georgia, 'Times New Roman', serif; }
+.algorithm-modal header button { width: 40px; height: 40px; border: 1px solid var(--ink); border-radius: 50%; background: var(--butter); color: var(--ink); cursor: pointer; font-size: 27px; line-height: 1; }
+.algorithm-modal pre { margin: 0; overflow: auto; border-radius: 12px; padding: clamp(16px, 3vw, 28px); background: var(--ink); color: #f9f1dd; font: clamp(10px, 1.35vw, 13px)/1.65 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
+
+.games-story { padding-block: 110px 130px; border-top: 1px solid var(--line); }
+.games-story > div { display: grid; grid-template-columns: minmax(300px, .9fr) minmax(360px, 1.1fr); gap: clamp(55px, 9vw, 130px); align-items: start; }
+.games-story h2 { font-family: Georgia, 'Times New Roman', serif; }
+.games-story > div > div { padding-top: 8px; }
+.games-story > div > div p { color: var(--ink-soft); font-size: 17px; }
+.games-story-note { position: relative; margin-top: 34px; padding: 28px 24px 22px; border: 1px solid var(--ink); border-radius: 6px; background: #fff6d9; box-shadow: 6px 7px 0 var(--mint); color: var(--ink); font: 18px/1.45 'Bradley Hand', 'Comic Sans MS', cursive; transform: rotate(-1deg); }
+.games-story-note::before { content: ''; position: absolute; width: 90px; height: 22px; left: 50%; top: -12px; translate: -50% 0; background: #ead69dcc; transform: rotate(2deg); }
+
+@media (max-width: 900px) {
+  .games-hero, .sudoku-workbench, .games-story > div { grid-template-columns: 1fr; }
+  .games-hero { min-height: auto; }
+  .games-hero aside { width: min(430px, 90%); justify-self: center; }
+  .sudoku-workbench { justify-items: center; }
+  .sudoku-controls { width: min(560px, 100%); }
+  .algorithm-grid { grid-template-columns: 1fr; }
+  .algorithm-card p { min-height: auto; }
+}
+
+@media (max-width: 680px) {
+  .games-hero { gap: 55px; padding-block: 65px 80px; }
+  .games-hero aside { width: 94%; padding: 28px 24px; }
+  .sudoku-section, .games-algorithms, .games-story { padding-block: 78px; }
+  .sudoku-app { padding: 15px; border-radius: 18px; box-shadow: 7px 8px 0 #d8c987; }
+  .sudoku-toolbar { justify-content: flex-start; }
+  .sudoku-workbench { display: block; }
+  .sudoku-grid { box-shadow: 5px 6px 0 #b9add1; }
+  .sudoku-cell input { font-size: clamp(16px, 6vw, 24px); }
+  .sudoku-controls { margin-top: 52px; }
+  .sudoku-below-grid { align-items: stretch; flex-direction: column; }
+  .sudoku-below-grid > button { align-self: flex-start; }
+  .algorithm-card { padding: 24px; }
+  .algorithm-modal-backdrop { padding: 10px; }
+  .algorithm-modal { max-height: calc(100vh - 20px); padding: 17px; }
+}

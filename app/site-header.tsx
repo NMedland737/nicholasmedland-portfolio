@@ -9,7 +9,7 @@ export default function SiteHeader() {
         <a href="/#work">Projects</a>
         <a href="/resume">Resume</a>
         <a href="/games">Games</a>
-        <a className="nav-contact" href="mailto:npm3@sfu.ca">Say hello <span aria-hidden="true">↗</span></a>
+        <a className="nav-contact" href="mailto:npm3@sfu.ca">Say hi <span aria-hidden="true">↗</span></a>
       </div>
     </nav>
   );
