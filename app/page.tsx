@@ -10,6 +10,7 @@ type Category = 'Personal' | 'Commissioned' | 'School';
 type Media = {
   type: 'image' | 'video' | 'model' | 'note';
   src?: string;
+  poster?: string;
   alt: string;
   caption: string;
   detail?: string;
@@ -49,7 +50,7 @@ const projects: Project[] = [
     media: [
       { type: 'image', src: '/projects/card-shuffler/assembled.png', alt: 'Assembled automated card shuffler prototype', caption: 'Working prototype' },
       { type: 'image', src: '/projects/card-shuffler/system-diagram.jpeg', alt: 'Card shuffler electronics and control system diagram', caption: 'System design' },
-      { type: 'video', src: '/projects/card-shuffler/demo.m4v', alt: 'Card shuffler prototype demonstration', caption: 'Prototype in motion' },
+      { type: 'video', src: '/projects/card-shuffler/demo.m4v', poster: '/projects/card-shuffler/video-poster.png', alt: 'Card shuffler prototype demonstration', caption: 'Prototype in motion' },
     ],
   },
   {
@@ -63,7 +64,7 @@ const projects: Project[] = [
     challenge: 'Keep the scheduler, controller, timers, physical inputs, and displays coordinated without losing a queued floor or leaving the elevator in the wrong state.',
     learning: 'Breaking the system into smaller modules made complicated behaviour much easier to reason about and test. It was also satisfying to watch code turn into something I could control with real switches, buttons, and displays.',
     media: [
-      { type: 'video', src: '/projects/elevator-control/demo.m4v', alt: 'Four-floor VHDL elevator controller running on a DE10-Standard FPGA board', caption: 'Working FPGA demonstration' },
+      { type: 'video', src: '/projects/elevator-control/demo.m4v', poster: '/projects/elevator-control/video-poster.png', alt: 'Four-floor VHDL elevator controller running on a DE10-Standard FPGA board', caption: 'Working FPGA demonstration' },
       { type: 'image', src: '/projects/elevator-control/architecture.png', alt: 'Quartus block diagram for the VHDL elevator control system', caption: 'System architecture' },
       { type: 'image', src: '/projects/elevator-control/state-machine.png', alt: 'Seven-state finite state machine diagram for the elevator controller', caption: 'Controller state machine' },
     ],
@@ -184,7 +185,7 @@ function MediaVisual({ media, compact = false }: { media: Media; compact?: boole
     return <img src={media.src} alt={media.alt} loading={compact ? 'lazy' : 'eager'} />;
   }
   if (media.type === 'video') {
-    return <video src={media.src} aria-label={media.alt} muted={compact} controls={!compact} playsInline preload="metadata" />;
+    return <video src={media.src} poster={media.poster} aria-label={media.alt} muted={compact} controls={!compact} playsInline preload={compact ? 'none' : 'metadata'} />;
   }
   if (media.type === 'model') {
     return <ModelViewer src={media.src!} alt={media.alt} compact={compact} />;
