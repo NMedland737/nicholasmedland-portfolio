@@ -163,6 +163,24 @@ const projects: Project[] = [
       { type: 'image', src: '/projects/thermostat-cover/before.jpeg', alt: 'Original wall-mounted thermostat before the cover was installed', caption: 'Before installation' },
     ],
   },
+  {
+    id: 'gelato-cart-caddy',
+    title: 'Gelato Cart Service Caddy',
+    category: 'Commissioned',
+    year: '2026',
+    lede: 'A fitted cup caddy that freed two gelato wells for two more flavours.',
+    description: 'The cart had been using two gelato slots to hold cups. I designed a caddy that slides onto the side instead, working around the handles, knobs, screen, recesses, and the cart’s not-quite-simple shape.',
+    tags: ['Fusion 360', '3D Printing', 'On-Site Measurement', 'Product Design', 'Client Work'],
+    challenge: 'The caddy had to slide on cleanly without covering or colliding with any of the cart’s controls. There were a surprising number of small shapes and clearances to work around in one tight space.',
+    learning: 'Take more measurements and photos than I think I need. My first set missed a few crucial details, and the first fit was very off. I went back, measured everything again, took a lot more photos, and the next version fit properly.',
+    media: [
+      { type: 'image', src: '/projects/gelato-cart-caddy/installed-angle.jpeg', alt: 'Custom gelato cup caddy fitted to the side of a service cart', caption: 'Installed on the cart' },
+      { type: 'image', src: '/projects/gelato-cart-caddy/top-view.jpeg', alt: 'Top view of the fitted caddy holding gelato cups and serving tools', caption: 'Four fitted compartments' },
+      { type: 'model', src: '/projects/gelato-cart-caddy/model.glb', alt: 'Interactive 3D model of the gelato cart service caddy', caption: 'Interactive 3D model' },
+      { type: 'image', src: '/projects/gelato-cart-caddy/front-view.jpeg', alt: 'Front view of the custom gelato cart caddy in use', caption: 'In service' },
+      { type: 'image', src: '/projects/gelato-cart-caddy/side-view.jpeg', alt: 'Side view showing the gelato caddy fitted around the cart hardware', caption: 'Fitted around the hardware' },
+    ],
+  },
 ];
 
 const filters: Array<'All' | Category> = ['All', 'Personal', 'Commissioned', 'School'];

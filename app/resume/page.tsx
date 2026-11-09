@@ -28,10 +28,17 @@ const experience = [
     tags: ['Client collaboration', 'Autodesk Fusion', '3D printing', 'Iteration'],
   },
   {
-    dates: 'Aug 2023 — Present',
+    dates: 'Oct 2026',
+    role: 'Supervisory Voting Officer',
+    place: 'Elections BC · Provincial Election',
+    description: 'Supervised a team of 18 election officials at a provincial voting place. I stayed visible and approachable, gave clear direction, and encouraged staff to raise mistakes or concerns early so I could resolve them before they affected voting operations.',
+    tags: ['Team leadership', 'Clear communication', 'Issue resolution', 'Election operations'],
+  },
+  {
+    dates: 'Aug 2023 — Oct 2026',
     role: 'Premium Server & Bartender',
     place: 'Canucks Sports & Entertainment · Rogers Arena, Vancouver, BC',
-    description: 'Provide fine-dining table and bar service in Rogers Arena’s most exclusive dining space, serving executives, VIPs, ownership, and other high-profile guests. The role requires discretion, consistency, and close attention to detail.',
+    description: 'Provided fine-dining table and bar service in Rogers Arena’s most exclusive dining space, serving executives, VIPs, ownership, and other high-profile guests. The role required discretion, consistency, and close attention to detail.',
     tags: ['Fine dining', 'VIP hospitality', 'Discretion', 'High-pressure service'],
   },
   {
@@ -49,6 +56,13 @@ const experience = [
     tags: ['Troubleshooting', 'Installation', 'Technical support'],
   },
   {
+    dates: 'Feb 2025',
+    role: 'Alternate Presiding Election Official',
+    place: 'City of Coquitlam · Coquitlam, BC',
+    description: 'Helped prepare the voting place, assist voters, issue ballots, and complete the required counting and documentation procedures.',
+    tags: ['Election operations', 'Procedure compliance', 'Public service'],
+  },
+  {
     dates: 'Sep — Nov 2024',
     role: 'Election Equipment Officer',
     place: 'Elections BC · Coquitlam, BC',
@@ -56,18 +70,11 @@ const experience = [
     tags: ['Equipment testing', 'Logistics', 'Operational reliability'],
   },
   {
-    dates: 'Feb 2023 — Aug 2024',
+    dates: 'Jan 2022 — Aug 2023',
     role: 'Cashier',
     place: 'Independent Grocers · Surrey, BC',
     description: 'Processed transactions, answered customer questions, and kept the checkout area organized during busy periods.',
     tags: ['Customer service', 'Point-of-sale', 'Accuracy'],
-  },
-  {
-    dates: 'Feb 2024',
-    role: 'Alternate Presiding Election Official',
-    place: 'City of Coquitlam · Coquitlam, BC',
-    description: 'Helped prepare the voting place, assist voters, issue ballots, and complete the required counting and documentation procedures.',
-    tags: ['Election operations', 'Procedure compliance', 'Public service'],
   },
   {
     dates: 'Sep 2022',
