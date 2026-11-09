@@ -31,7 +31,7 @@ const experience = [
     dates: 'Oct 2026',
     role: 'Supervisory Voting Officer',
     place: 'Elections BC · Provincial Election',
-    description: 'Supervised a team of 18 election officials at a provincial voting place. I stayed visible and approachable, gave clear direction, and encouraged staff to raise mistakes or concerns early so I could resolve them before they affected voting operations.',
+    description: 'Supervised a team of 18 election officials at a provincial voting place. Staying visible and approachable, giving clear direction, and encouraging staff to raise concerns allowed me to catch mistakes early and resolve issues before they affected voting operations.',
     tags: ['Team leadership', 'Clear communication', 'Issue resolution', 'Election operations'],
   },
   {
