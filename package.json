@@ -1,6 +1,7 @@
 {
-  "name": "sites-project",
+  "name": "nicholasmedland-portfolio",
   "version": "0.1.0",
+  "description": "Nicholas Medland's electronics, prototyping, and fabrication portfolio.",
   "private": true,
   "engines": {
     "node": ">=22.13.0"

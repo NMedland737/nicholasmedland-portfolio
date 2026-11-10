@@ -8,7 +8,7 @@ The printer queue is hosted inside the same Cloudflare Worker as `nicholasmedlan
 https://nicholasmedland.com/api/todo-printer/index.php
 ```
 
-The legacy-looking `index.php` path is intentional. It lets the existing iPhone Shortcut and Raspberry Pi worker use the new backend without code changes. The shorter `/api/todo-printer` path also works.
+The legacy-looking `index.php` path is intentional. It lets the existing iPhone Shortcut and Raspberry Pi worker use the backend without code changes. The shorter `/api/todo-printer` path also works.
 
 ## Credentials
 

@@ -36,3 +36,8 @@ next-env.d.ts
 /.wrangler/
 /outputs/
 /work/
+
+# editor and TypeScript caches
+*.tsbuildinfo
+.idea/
+.vscode/
